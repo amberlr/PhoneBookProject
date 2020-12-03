@@ -15,15 +15,15 @@ namespace PhoneBookAppProject
         {
             _connection = connection;
         }
-        public IEnumerable<Contacts> GetAllContacts()
+        public IEnumerable<ContactInfo> GetAllContacts()
         {
-            return _connection.Query<Contacts>("SELECT * FROM contactinfo;");
+            return _connection.Query<ContactInfo>("SELECT * FROM contactinfo;");
         }
         public void CreateContact(string newFirstName, string newLastName, string newPhoneNum, string newEmail, string newCityState, string newBirthDate)
         {
             //how do I make some of these for each method optional?
             _connection.Execute("INSERT INTO contactinfo (FirstName, LastName, PhoneNumber, EmailAddress, CityAndState, BirthDate) " +
-                "VALUES (@firstName, @lastNane, @phoneNumber, @email, @cityState, @birthDate);",
+                "VALUES (@firstName, @lastName, @phoneNumber, @email, @cityState, @birthDate);",
                 new { firstName = newFirstName, lastName = newLastName, phoneNumber = newPhoneNum, email = newEmail, 
                       cityState = newCityState, birthDate = newBirthDate });
         }
@@ -31,7 +31,7 @@ namespace PhoneBookAppProject
         {
             //same as comment above but how can I make all go based off idcontactInfo
             _connection.Execute("UPDATE contactinfo SET FirstName = @changeFName WHERE idcontactInfo = @id;",
-                new { changeFName = newFirstName, id = });
+                new { changeFName = newFirstName});
         }
         public void DeleteContact(int contactID)
         {
